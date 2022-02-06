@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="myViewModel"
             type="com.adevelopercompany.threadapp.SubscriberViewModel" />
-
-
     </data>
 
 
@@ -42,10 +39,21 @@
 
             />
 
+        <EditText
+            android:id="@+id/description_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Enter Description"
+            android:text="@={myViewModel.inputDescription}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
 
+            />
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:orientation="horizontal">
 
             <Button

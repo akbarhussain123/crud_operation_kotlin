@@ -11,7 +11,7 @@ interface SubscriberDao {
     suspend fun insertSubscriber(subscriber: Subscriber): Long
 
     @Update
-    suspend fun updateSubscriber(subscriber: Subscriber): kotlin.Int
+    suspend fun updateSubscriber(subscriber: Subscriber):Int
 
     @Delete
     suspend fun daleteSubscriber(subscriber: Subscriber):Int

@@ -33,6 +33,7 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
     fun binding(subscriber: Subscriber, clickListener: (Subscriber) -> Unit) {
         binding.nameTextView.text = subscriber.name
         binding.emailTextView.text = subscriber.email
+        binding.descriptionTextView.text=subscriber.description
         binding.listItemLayout.setOnClickListener {
             clickListener(subscriber)
         }

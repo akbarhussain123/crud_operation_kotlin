@@ -1,6 +1,5 @@
 package com.adevelopercompany.threadapp
 
-import android.provider.ContactsContract.DisplayNameSources.EMAIL
 import android.util.Patterns
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
@@ -12,7 +11,6 @@ import com.adevelopercompany.threadapp.db.Subscriber
 import com.adevelopercompany.threadapp.db.SubscriberRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 
 class SubscriberViewModel(private val repository: SubscriberRepository) : ViewModel(), Observable {
 
@@ -27,6 +25,9 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
 
     @Bindable
     var inputEmail = MutableLiveData<String>()
+
+    @Bindable
+    var inputDescription = MutableLiveData<String>()
 
     @Bindable
     var saveOrUpdateButtonText = MutableLiveData<String>()
@@ -47,7 +48,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
     fun initUpdateAndDelete(subscriber: Subscriber) {
         inputName.value = subscriber.name
         inputEmail.value = subscriber.email
-
+        inputDescription.value = subscriber.description
         isUpdateOrdelete = true
         subscriberToUpdateOrDelete = subscriber
         saveOrUpdateButtonText.value = "Update"
@@ -61,6 +62,9 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
         } else if (inputEmail.value == null) {
             statusMessage.value = Event(" Please Enter Email")
 
+        } else if (inputDescription.value == null) {
+            statusMessage.value = Event(" Please Enter Description")
+
         } else if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail.value!!).matches()) {
             statusMessage.value = Event(" Please Enter Valid Email")
 
@@ -68,15 +72,18 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
             if (isUpdateOrdelete) {
                 subscriberToUpdateOrDelete.name = inputName.value!!
                 subscriberToUpdateOrDelete.email = inputEmail.value!!
+                subscriberToUpdateOrDelete.description = inputDescription.value!!
 
                 update(subscriberToUpdateOrDelete)
             } else {
                 val name: String = inputName.value!!
                 val email: String = inputEmail.value!!
-                insert(Subscriber(0, name, email))
+                val description: String = inputDescription.value!!
+                insert(Subscriber(0, name, email, description))
 
                 inputName.value = null
                 inputEmail.value = null
+                inputDescription.value = null
             }
 
         }
@@ -109,6 +116,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
         if (NoOfRow > -1) {
             inputName.value = null
             inputEmail.value = null
+            inputDescription.value = null
             isUpdateOrdelete = false
             saveOrUpdateButtonText.value = "Save"
             clearAllOrDeleteButtonText.value = "Clear All"
@@ -127,6 +135,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
         if (noOfRowsDeleted > -1) {
             inputName.value = null
             inputEmail.value = null
+            inputDescription.value = null
             isUpdateOrdelete = false
             saveOrUpdateButtonText.value = "Save"
             clearAllOrDeleteButtonText.value = "Clear All"
